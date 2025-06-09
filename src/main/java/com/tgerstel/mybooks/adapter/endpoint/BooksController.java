@@ -1,0 +1,25 @@
+package com.tgerstel.mybooks.adapter.endpoint;
+
+import com.tgerstel.mybooks.domain.BookService;
+import com.tgerstel.mybooks.domain.model.PaginatedBooks;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@AllArgsConstructor
+@RestController
+@RequestMapping("/api/books")
+public class BooksController {
+
+    private final BookService bookService;
+
+    @GetMapping("/search")
+    public ResponseEntity<PaginatedBooks> searchBooks(
+            @RequestParam String q,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        int startIndex = page * size;
+        PaginatedBooks paginatedBooks = bookService.searchBooks(q, startIndex, size);
+        return ResponseEntity.ok(paginatedBooks);
+    }
+}
