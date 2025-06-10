@@ -1,19 +1,17 @@
 package com.tgerstel.mybooks.domain;
 
-import com.tgerstel.mybooks.domain.model.Book;
 import com.tgerstel.mybooks.domain.model.ExternalBook;
 import com.tgerstel.mybooks.domain.model.PaginatedBooks;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class BookServiceImpl implements BookService {
 
-//    private final BookRepository bookRepository;
+    private final BookRepository bookRepository;
     private final ExternalBookProvider externalBookProvider;
+    private final UserRepository userRepository;
 
     @Override
     public PaginatedBooks searchBooks(String query, int page, int size) {
@@ -21,22 +19,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void saveBookLocally(ExternalBook book) {
-
+    public void saveBookLocally(ExternalBook externalBook, String username) {
+        bookRepository.findById(externalBook.id())
+                .ifPresentOrElse(
+                        book -> {
+                            userRepository.addBookToUserLibrary(externalBook, username);
+                        },
+                        () -> {
+                            bookRepository.save(externalBook);
+                            userRepository.addBookToUserLibrary(externalBook, username);
+                        }
+                );
     }
 
     @Override
-    public void addBookToUserLibrary(String bookId, Long userId) {
-
-    }
-
-    @Override
-    public List<Book> getUserLibrary(Long userId) {
-        return List.of();
-    }
-
-    @Override
-    public void removeBookFromUserLibrary(String bookId, Long userId) {
-
+    public void removeBookFromUserLibrary(String bookId,String username) {
+        bookRepository.findById(bookId)
+                .ifPresent(book -> {
+                    userRepository.removeBookFromUserLibrary(book, username);
+                });
     }
 }
