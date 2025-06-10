@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <changeSet id="0001-1" author="tgerstel">
+        <sql>
+            CREATE TABLE book
+            (
+            id varchar(36) NOT NULL CONSTRAINT book_pkey PRIMARY KEY,
+            title varchar(255) NOT NULL,
+            authors varchar(255) NOT NULL,
+            isbn varchar(13) NOT NULL,
+            publication_date TIMESTAMP NOT NULL,
+            cover_image_url varchar(255),
+            CONSTRAINT ck_isbn CHECK (isbn ~ '^[0-9]{13}$')
+            );
+
+            CREATE SEQUENCE users_id_seq START 1;
+
+            CREATE TABLE users
+            (
+            id BIGINT NOT NULL DEFAULT nextval('users_id_seq') CONSTRAINT users_pkey PRIMARY KEY,
+            username varchar(100) NOT NULL,
+            email varchar(100) NOT NULL,
+            password varchar(255) NOT NULL
+            );
+
+            CREATE TABLE user_books
+            (
+            user_id BIGINT NOT NULL CONSTRAINT user_books_user_id_fkey REFERENCES users,
+            book_id varchar(36) NOT NULL CONSTRAINT user_books_book_id_fkey REFERENCES book,
+            CONSTRAINT user_books_pkey PRIMARY KEY (user_id, book_id)
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
