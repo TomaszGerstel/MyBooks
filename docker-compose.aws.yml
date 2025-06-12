@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  backend:
-    container_name: backend
+  mybooks-backend:
+    container_name: mybooks-backend
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
     networks:
       - my-books-network
 
-  frontend:
+  mybooks-frontend:
     container_name: mybooks-frontend
     build:
       context: ./src/main/resources/mybooks-frontend
@@ -24,7 +24,7 @@ services:
       args:
         REACT_APP_API_BASE_URL: /api
     depends_on:
-      - backend
+      - mybooks-backend
     restart: unless-stopped
     networks:
       - nginx-network
