@@ -25,10 +25,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        Optional<User> user = userService.findByUsername(request.getUsername());
+    public ResponseEntity<String> login(@RequestBody final LoginRequest request) {
+        final Optional<User> user = userService.findByUsername(request.getUsername());
         if (user.isPresent() && userService.getPasswordEncoder().matches(request.getPassword(), user.get().getPassword())) {
-            String token = jwtUtil.generateJwtToken(request.getUsername());
+            final String token = jwtUtil.generateJwtToken(request.getUsername());
             return ResponseEntity.ok(token);
         }
         return ResponseEntity.status(403).body("Invalid credentials");

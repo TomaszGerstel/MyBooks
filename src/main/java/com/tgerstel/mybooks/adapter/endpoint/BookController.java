@@ -16,20 +16,19 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addBook(@RequestBody ExternalBook book, @AuthenticationPrincipal final UserDetails user) {
-        System.out.println(user);
+    public ResponseEntity<?> addBook(@RequestBody final ExternalBook book, @AuthenticationPrincipal final UserDetails user) {
         bookService.saveBookLocally(book, user.getUsername());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<?> removeBook(@PathVariable String bookId, @AuthenticationPrincipal final UserDetails user) {
+    public ResponseEntity<?> removeBook(@PathVariable final String bookId, @AuthenticationPrincipal final UserDetails user) {
         bookService.removeBookFromUserLibrary(bookId, user.getUsername());
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{bookId}/read")
-    public ResponseEntity<?> updateBook(@PathVariable String bookId, @AuthenticationPrincipal final UserDetails user) {
+    public ResponseEntity<?> updateBook(@PathVariable final String bookId, @AuthenticationPrincipal final UserDetails user) {
         bookService.changeBookReadStatus(bookId, user.getUsername());
         return ResponseEntity.ok().build();
     }

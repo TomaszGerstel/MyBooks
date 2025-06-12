@@ -18,23 +18,23 @@ public class BookRepositoryImpl implements BookRepository {
     private UserSpringRepository userSpringRepository;
 
     @Override
-    public boolean existsById(String id) {
+    public boolean existsById(final String id) {
         return bookSpringRepository.existsById(id);
     }
 
     @Override
-    public void save(ExternalBook book) {
-        BookEntity bookEntity = new BookEntity(book);
+    public void save(final ExternalBook book) {
+        final var bookEntity = new BookEntity(book);
         bookSpringRepository.save(bookEntity);
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(final String id) {
         bookSpringRepository.deleteById(id);
     }
 
     @Override
-    public List<UserBook> findBooksByUsername(String username) {
+    public List<UserBook> findBooksByUsername(final String username) {
         return userBookSpringRepository.findByUserUsername(username)
                 .stream()
                 .map(UserBookEntity::toDomain)
@@ -42,24 +42,24 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void addBookToUserLibrary(String bookId, String username) {
-        var userEntity = userSpringRepository.findByUsername(username)
+    public void addBookToUserLibrary(final String bookId, final String username) {
+        final var userEntity = userSpringRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
-        var bookEntity = bookSpringRepository.findById(bookId)
+        final var bookEntity = bookSpringRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found: " + bookId));
-        var userBook = new UserBookEntity(userEntity, bookEntity, false);
+        final var userBook = new UserBookEntity(userEntity, bookEntity, false);
         userBookSpringRepository.save(userBook);
     }
 
     @Override
     @Transactional
-    public void removeBookFromUserLibrary(String bookId, String username) {
+    public void removeBookFromUserLibrary(final String bookId, final String username) {
         userBookSpringRepository.deleteByBookIdAndUserUsername(bookId, username);
     }
 
     @Override
-    public void changeBookReadStatus(String bookId, String username) {
-        var userBook = userBookSpringRepository.findByBookIdAndUserUsername(bookId, username)
+    public void changeBookReadStatus(final String bookId, final String username) {
+        final var userBook = userBookSpringRepository.findByBookIdAndUserUsername(bookId, username)
                 .orElseThrow(() -> new IllegalArgumentException("UserBook not found for bookId: " + bookId + " and username: " + username));
         userBook.setRead(!userBook.isRead());
         userBookSpringRepository.save(userBook);
