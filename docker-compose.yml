@@ -1,39 +1,39 @@
 version: '3.8'
 
 services:
-  backend:
-    container_name: backend
+  mybooks-backend:
+    container_name: mybooks-backend
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     depends_on:
-      - db
+      - mybooks-db
     volumes:
       - ./.env:/app/.env:r
     restart: unless-stopped
     networks:
       - my-books-network
 
-  frontend:
-    container_name: frontend
+  mybooks-frontend:
+    container_name: mybooks-frontend
     build:
       context: ./src/main/resources/mybooks-frontend
       dockerfile: Dockerfile
       args:
         REACT_APP_API_BASE_URL: /api
     depends_on:
-      - backend
+      - mybooks-backend
     ports:
       - "80:80"
     restart: unless-stopped
     networks:
       - my-books-network
 
-  db:
+  mybooks-db:
     image: postgres:15.6-alpine
-    container_name: db
+    container_name: mybooks-db
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
