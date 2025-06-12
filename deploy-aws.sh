@@ -11,7 +11,7 @@ if [ ! -f .env ]; then
   echo "DB_PASS=$DB_PASS" >> .env
   echo "JWT_SECRET=$JWT_SECRET" >> .env
 
-  echo ".env file created with a secure JWT Secret."
+  echo ".env file created."
 else
   echo ".env file already exists. Skipping creation."
 fi

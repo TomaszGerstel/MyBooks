@@ -26,7 +26,7 @@ public class UserBookEntity {
     @Column(name = "is_read", nullable = false)
     private boolean isRead;
 
-    public UserBookEntity(UserEntity user, BookEntity book, boolean isRead) {
+    public UserBookEntity(final UserEntity user, final BookEntity book, final  boolean isRead) {
         this.user = user;
         this.book = book;
         this.isRead = isRead;

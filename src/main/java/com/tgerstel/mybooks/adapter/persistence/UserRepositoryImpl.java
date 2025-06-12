@@ -14,24 +14,24 @@ public class UserRepositoryImpl implements UserRepository {
     UserSpringRepository springRepository;
 
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUsername(final String username) {
         return springRepository.findByUsername(username).map(UserEntity::toUser);
     }
 
     @Override
-    public User save(User user) {
+    public User save(final User user) {
         return springRepository.save(UserEntity.fromUser(user)).toUser();
     }
 
     @Override
-    public void delete(User user) {
-        UserEntity userEntity = springRepository.findByUsername(user.getUsername())
+    public void delete(final User user) {
+        final var userEntity = springRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + user.getUsername()));
         springRepository.delete(userEntity);
     }
 
     @Override
-    public boolean existsByUsername(String username) {
+    public boolean existsByUsername(final String username) {
         return springRepository.findByUsername(username).isPresent();
     }
 

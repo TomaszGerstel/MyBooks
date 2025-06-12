@@ -23,8 +23,8 @@ public class BooksController {
             @RequestParam String q,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        int startIndex = page * size;
-        PaginatedBooks paginatedBooks = bookService.searchBooks(q, startIndex, size);
+        final int startIndex = page * size;
+        final PaginatedBooks paginatedBooks = bookService.searchBooks(q, startIndex, size);
         return ResponseEntity.ok(paginatedBooks);
     }
 

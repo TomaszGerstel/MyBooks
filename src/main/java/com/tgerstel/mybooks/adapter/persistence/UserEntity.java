@@ -34,8 +34,8 @@ public class UserEntity {
         return new User(username, password, email);
     }
 
-    public static UserEntity fromUser(User user) {
-        UserEntity entity = new UserEntity();
+    public static UserEntity fromUser(final User user) {
+        final var entity = new UserEntity();
         entity.setUsername(user.getUsername());
         entity.setPassword(user.getPassword());
         entity.setEmail(user.getEmail());

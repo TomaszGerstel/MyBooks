@@ -18,21 +18,21 @@ public class GoogleBookClient implements ExternalBookProvider {
     private final RestTemplate restTemplate;
     private final String googleBooksApiUrl;
 
-    public GoogleBookClient(RestTemplate restTemplate, @Value("${google.books.api.url}") String googleBooksApiUrl) {
+    public GoogleBookClient(final RestTemplate restTemplate, @Value("${google.books.api.url}") final String googleBooksApiUrl) {
         this.restTemplate = restTemplate;
         this.googleBooksApiUrl = googleBooksApiUrl;
     }
 
     @Override
-    public PaginatedBooks findBooks(String query, int startIndex, int maxResults) {
-        String url = googleBooksApiUrl + "?q=" + query + "&startIndex=" + startIndex + "&maxResults=" + maxResults;
+    public PaginatedBooks findBooks(final String query, final int startIndex, final int maxResults) {
+        final String url = googleBooksApiUrl + "?q=" + query + "&startIndex=" + startIndex + "&maxResults=" + maxResults;
 
         try {
-            GoogleBooksResponse response = restTemplate.getForObject(url, GoogleBooksResponse.class);
-            if (response != null && response.getItems() != null) {
-                List<ExternalBook> books = response.getItems().stream().map(this::mapToExternalBook).collect(Collectors.toList());
-                boolean hasNextPage = response.getItems().size() == maxResults;
-                return new PaginatedBooks(books, response.getTotalItems(), hasNextPage);
+            final var response = restTemplate.getForObject(url, GoogleBooksResponse.class);
+            if (response != null && response.items() != null) {
+                final List<ExternalBook> books = response.items().stream().map(this::mapToExternalBook).collect(Collectors.toList());
+                final boolean hasNextPage = response.items().size() == maxResults;
+                return new PaginatedBooks(books, response.totalItems(), hasNextPage);
             }
             return new PaginatedBooks(List.of(), 0, false);
         } catch (Exception e) {
@@ -42,10 +42,10 @@ public class GoogleBookClient implements ExternalBookProvider {
     }
 
     @Override
-    public ExternalBook findBookById(String id) {
-        String url = googleBooksApiUrl + "/" + id;
+    public ExternalBook findBookById(final String id) {
+        final String url = googleBooksApiUrl + "/" + id;
         try {
-            GoogleBookItem response = restTemplate.getForObject(url, GoogleBookItem.class);
+            final var response = restTemplate.getForObject(url, GoogleBookItem.class);
             return response != null ? mapToExternalBook(response) : null;
         } catch (Exception e) {
             log.error("Error fetching book by ID from Google Books API", e);
@@ -53,9 +53,9 @@ public class GoogleBookClient implements ExternalBookProvider {
         }
     }
 
-    private ExternalBook mapToExternalBook(GoogleBookItem item) {
-        var authors = item.getVolumeInfo().getAuthors() != null ? item.getVolumeInfo().getAuthors() : List.of("Unknown Author");
-        var categories = item.getVolumeInfo().getCategories() != null ? item.getVolumeInfo().getCategories() : List.of("Uncategorized");
+    private ExternalBook mapToExternalBook(final GoogleBookItem item) {
+        final var authors = item.getVolumeInfo().getAuthors() != null ? item.getVolumeInfo().getAuthors() : List.of("Unknown Author");
+        final var categories = item.getVolumeInfo().getCategories() != null ? item.getVolumeInfo().getCategories() : List.of("Uncategorized");
         return new ExternalBook(
                 item.getId(),
                 item.getVolumeInfo().getTitle(),

@@ -1,6 +1,5 @@
 package com.tgerstel.mybooks.adapter.persistence;
 
-import com.tgerstel.mybooks.domain.BookRepository;
 import com.tgerstel.mybooks.domain.model.ExternalBook;
 import com.tgerstel.mybooks.domain.model.UserBook;
 import org.junit.jupiter.api.DisplayName;

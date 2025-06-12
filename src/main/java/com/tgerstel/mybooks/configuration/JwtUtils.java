@@ -36,7 +36,7 @@ public class JwtUtils {
         return key;
     }
 
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(final String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -45,7 +45,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getUsernameFromJwtToken(String token) {
+    public String getUsernameFromJwtToken(final String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -54,7 +54,7 @@ public class JwtUtils {
         return claims.getSubject();
     }
 
-    public boolean validateJwtToken(String token) {
+    public boolean validateJwtToken(final String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(getSigningKey())
@@ -67,7 +67,7 @@ public class JwtUtils {
         }
     }
 
-    public String getJwtFromRequest(HttpServletRequest request) {
+    public String getJwtFromRequest(final HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
