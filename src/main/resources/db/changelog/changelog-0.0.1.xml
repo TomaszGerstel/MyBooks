@@ -12,10 +12,8 @@
             id varchar(36) NOT NULL CONSTRAINT book_pkey PRIMARY KEY,
             title varchar(255) NOT NULL,
             authors varchar(255) NOT NULL,
-            isbn varchar(13) NOT NULL,
-            publication_date TIMESTAMP NOT NULL,
-            cover_image_url varchar(255),
-            CONSTRAINT ck_isbn CHECK (isbn ~ '^[0-9]{13}$')
+            publication_date varchar(20) NOT NULL,
+            cover_image_url varchar(255)
             );
 
             CREATE SEQUENCE users_id_seq START 1;
@@ -28,11 +26,16 @@
             password varchar(255) NOT NULL
             );
 
+            CREATE SEQUENCE user_book_id_seq START 1;
+
             CREATE TABLE user_books
             (
+            id BIGINT NOT NULL DEFAULT nextval('user_book_id_seq') CONSTRAINT user_books_pkey PRIMARY KEY,
             user_id BIGINT NOT NULL CONSTRAINT user_books_user_id_fkey REFERENCES users,
             book_id varchar(36) NOT NULL CONSTRAINT user_books_book_id_fkey REFERENCES book,
-            CONSTRAINT user_books_pkey PRIMARY KEY (user_id, book_id)
+            date_added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            is_read BOOLEAN NOT NULL DEFAULT FALSE,
+            CONSTRAINT user_books_user_id_book_id_unique UNIQUE (user_id, book_id)
             );
         </sql>
     </changeSet>

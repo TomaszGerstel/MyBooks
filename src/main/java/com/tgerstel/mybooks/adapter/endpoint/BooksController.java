@@ -1,7 +1,7 @@
 package com.tgerstel.mybooks.adapter.endpoint;
 
 import com.tgerstel.mybooks.domain.BookService;
-import com.tgerstel.mybooks.domain.UserService;
+import com.tgerstel.mybooks.domain.model.UserBook;
 import com.tgerstel.mybooks.domain.model.PaginatedBooks;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +9,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/books")
 public class BooksController {
 
     private final BookService bookService;
-    private final UserService userService;
 
     @GetMapping("/search")
     public ResponseEntity<PaginatedBooks> searchBooks(
@@ -28,7 +29,7 @@ public class BooksController {
     }
 
     @GetMapping("/user-library")
-    public ResponseEntity<?> getUserLibrary(@AuthenticationPrincipal final UserDetails user) {
-        return ResponseEntity.ok(userService.getUserLibrary(user.getUsername()));
+    public ResponseEntity<List<UserBook>> getUserLibrary(@AuthenticationPrincipal final UserDetails user) {
+        return ResponseEntity.ok(bookService.getUserLibrary(user.getUsername()));
     }
 }

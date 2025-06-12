@@ -1,7 +1,7 @@
 package com.tgerstel.mybooks.adapter.persistence;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface BookSpringRepository extends JpaRepository<BookEntity, String> {
+public interface BookSpringRepository extends CrudRepository<BookEntity, String> {
 
 }

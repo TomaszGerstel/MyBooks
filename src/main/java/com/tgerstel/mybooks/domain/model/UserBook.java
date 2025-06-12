@@ -1,11 +1,12 @@
 package com.tgerstel.mybooks.domain.model;
 
-public record Book(
+public record UserBook(
         String id,
         String title,
         String authors,
         String publicationDate,
-        String coverImageUrl
+        String coverImageUrl,
+        boolean isRead
 ) {
 
 }

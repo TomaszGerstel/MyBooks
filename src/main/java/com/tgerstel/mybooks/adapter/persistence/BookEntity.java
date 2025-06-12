@@ -1,14 +1,9 @@
 package com.tgerstel.mybooks.adapter.persistence;
 
-import com.tgerstel.mybooks.domain.model.Book;
 import com.tgerstel.mybooks.domain.model.ExternalBook;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +15,6 @@ public class BookEntity {
     private String id;
     private String title;
     private String authors;
-//    private String isbn;
     private String publicationDate;
     private String coverImageUrl;
 
@@ -30,10 +24,6 @@ public class BookEntity {
         this.authors = book.authors();
         this.publicationDate = book.publicationDate();
         this.coverImageUrl = book.coverImageUrl();
-    }
-
-    public Book toDomain() {
-        return new Book(id, title, authors, publicationDate, coverImageUrl);
     }
 
 }

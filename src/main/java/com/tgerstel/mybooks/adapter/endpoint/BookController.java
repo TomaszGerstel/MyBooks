@@ -28,4 +28,10 @@ public class BookController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/{bookId}/read")
+    public ResponseEntity<?> updateBook(@PathVariable String bookId, @AuthenticationPrincipal final UserDetails user) {
+        bookService.changeBookReadStatus(bookId, user.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
 }
