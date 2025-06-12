@@ -9,7 +9,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     depends_on:
-      - db
+      - mybooks-db
     volumes:
       - ./.env:/app/.env:r
     restart: unless-stopped
@@ -30,9 +30,9 @@ services:
       - nginx-network
       - my-books-network
 
-  db:
+  mybooks-db:
     image: postgres:15.6-alpine
-    container_name: db
+    container_name: mybooks-db
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
