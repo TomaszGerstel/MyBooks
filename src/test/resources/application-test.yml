@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/mybooks?stringtype=unspecified
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    enabled: false
