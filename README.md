@@ -5,7 +5,7 @@ oraz na dodawanie ich do swojej listy, usuwanie lub oznaczanie jako przeczytane.
 
 ## Działająca aplikacja
 
-https://quizmaster.tigerstel.xyz/
+https://mybooks.tigerstel.xyz/
 
 ## Instalacja
 
@@ -50,7 +50,7 @@ My Books is a web application that allows users to manage their book collections
 
 ## Working deployed app
 
-https://quizmaster.tigerstel.xyz/
+https://mybooks.tigerstel.xyz/
 
 ## Installation
 
