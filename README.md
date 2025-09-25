@@ -1,5 +1,12 @@
 # My Books
 
+Aplikacja pozwala (po rejestracji i zalogowaniu) na wyszukiwanie książek z GoogleBooks 
+oraz na dodawanie ich do swojej listy, usuwanie lub oznaczanie jako przeczytane.  
+
+## Działająca aplikacja
+
+https://quizmaster.tigerstel.xyz/
+
 ## Instalacja
 
 Aby łatwo wdrożyć aplikację, należy mieć Docker i Docker Compose na swoim komputerze.
@@ -40,6 +47,10 @@ a także uruchomić aplikację bez Dockera np. z Gradle (bootRun) - backend i np
 # My Books
 
 My Books is a web application that allows users to manage their book collections, including adding, editing, and deleting books. 
+
+## Working deployed app
+
+https://quizmaster.tigerstel.xyz/
 
 ## Installation
 
