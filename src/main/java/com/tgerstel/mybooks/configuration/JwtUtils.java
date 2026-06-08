@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @Component
 public class JwtUtils {
 
-    @Value("${jwt-secret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
     private final int jwtExpirationMs = 86400000; // 24 hours

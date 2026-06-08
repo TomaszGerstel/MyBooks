@@ -2,22 +2,21 @@ version: '3.8'
 
 services:
   backend:
-    container_name: mybooks-backend
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dokploy
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - db
-    volumes:
-      - ./.env:/app/.env:r
     restart: unless-stopped
     networks:
-      - my-books-network
+      - dokploy-network
 
   frontend:
-    container_name: mybooks-frontend
     build:
       context: ./src/main/resources/mybooks-frontend
       dockerfile: Dockerfile
@@ -25,26 +24,26 @@ services:
         REACT_APP_API_BASE_URL: /api
     depends_on:
       - backend
-    ports:
-      - "80:80"
     restart: unless-stopped
     networks:
-      - my-books-network
+      - dokploy-network
 
   db:
     image: postgres:15.6-alpine
-    container_name: mybooks-db
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=mybooks
     volumes:
-      - /db/data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+      - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
-      - my-books-network
+      - dokploy-network
+
+volumes:
+  postgres-data:
+
 
 networks:
-  my-books-network:
+  dokploy-network:
+    external: true
