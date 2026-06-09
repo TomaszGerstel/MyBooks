@@ -10,6 +10,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_BOOKS_API_KEY=${GOOGLE_BOOKS_API_KEY}
     depends_on:
       - db
     restart: unless-stopped

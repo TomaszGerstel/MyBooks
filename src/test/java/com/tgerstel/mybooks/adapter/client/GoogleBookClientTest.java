@@ -22,12 +22,13 @@ public class GoogleBookClientTest {
     private RestTemplate restTemplate;
 
     private static final String GOOGLE_BOOKS_API_URL = "http://example.com/api";
+    private static final String GOOGLE_BOOKS_API_KEY = "test-api-key";
 
     private GoogleBookClient googleBookClient;
 
     @BeforeEach
     void setUp() {
-        googleBookClient = new GoogleBookClient(restTemplate, GOOGLE_BOOKS_API_URL);
+        googleBookClient = new GoogleBookClient(restTemplate, GOOGLE_BOOKS_API_URL, GOOGLE_BOOKS_API_KEY);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class GoogleBookClientTest {
         String query = "test";
         int startIndex = 0;
         int maxResults = 10;
-        String apiUrl = "http://example.com/api?q=test&startIndex=0&maxResults=10";
+        String apiUrl = "http://example.com/api?q=test&startIndex=0&maxResults=10&key=test-api-key";
         GoogleBooksResponse mockResponse = new GoogleBooksResponse(2, List.of(
                 createGoogleBookItem("1", "Title 1", "Author 1"),
                 createGoogleBookItem("2", "Title 2", "Author 2")
@@ -60,7 +61,7 @@ public class GoogleBookClientTest {
         String query = "test";
         int startIndex = 0;
         int maxResults = 10;
-        String apiUrl = "http://example.com/api?q=test&startIndex=0&maxResults=10";
+        String apiUrl = "http://example.com/api?q=test&startIndex=0&maxResults=10&key=test-api-key";
         GoogleBooksResponse mockResponse = new GoogleBooksResponse(0, null);
         when(restTemplate.getForObject(apiUrl, GoogleBooksResponse.class)).thenReturn(mockResponse);
 

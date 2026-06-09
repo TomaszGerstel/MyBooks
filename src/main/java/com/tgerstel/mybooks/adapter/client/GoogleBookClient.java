@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,15 +18,29 @@ public class GoogleBookClient implements ExternalBookProvider {
 
     private final RestTemplate restTemplate;
     private final String googleBooksApiUrl;
+    private final String googleBooksApiKey;
 
-    public GoogleBookClient(final RestTemplate restTemplate, @Value("${google.books.api.url}") final String googleBooksApiUrl) {
+    public GoogleBookClient(
+            final RestTemplate restTemplate,
+            @Value("${google.books.api.url}") final String googleBooksApiUrl,
+            @Value("${google.books.api.key}") final String googleBooksApiKey) {
         this.restTemplate = restTemplate;
         this.googleBooksApiUrl = googleBooksApiUrl;
+        this.googleBooksApiKey = googleBooksApiKey;
+
     }
 
     @Override
     public PaginatedBooks findBooks(final String query, final int startIndex, final int maxResults) {
-        final String url = googleBooksApiUrl + "?q=" + query + "&startIndex=" + startIndex + "&maxResults=" + maxResults;
+
+        final String url = UriComponentsBuilder
+                .fromUriString(googleBooksApiUrl)
+                .queryParam("q", query)
+                .queryParam("startIndex", startIndex)
+                .queryParam("maxResults", maxResults)
+                .queryParam("key", googleBooksApiKey)
+                .build()
+                .toUriString();
 
         try {
             final var response = restTemplate.getForObject(url, GoogleBooksResponse.class);
